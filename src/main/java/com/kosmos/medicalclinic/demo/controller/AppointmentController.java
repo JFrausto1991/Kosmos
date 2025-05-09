@@ -42,7 +42,7 @@ public class AppointmentController {
 	}
 
 	@GetMapping("/get-by-id")
-	public ResponseEntity<ApiResponse<?>> getAppointmentById(@RequestParam("id") Long id) {
+	public ResponseEntity<ApiResponse<?>> getAppointmentById(@RequestParam("appointmentId") Long id) {
 		Optional<Appointment> appointment = appointmentService.findById(id);
 
 		if (appointment.isPresent()) {
@@ -67,7 +67,7 @@ public class AppointmentController {
 	}
 
 	@PutMapping()
-	public ResponseEntity<ApiResponse<Appointment>> updateAppointment(@RequestParam("id") Long id,
+	public ResponseEntity<ApiResponse<Appointment>> updateAppointment(@RequestParam("appointmentId") Long id,
 			@Validated @RequestBody Appointment appointment) {
 		Appointment updated = appointmentService.updateAppointment(id, appointment);
 		ApiResponse<Appointment> response = new ApiResponse<>("success", "Appointment updated successfully", updated);
@@ -76,14 +76,14 @@ public class AppointmentController {
 	}
 
 	@PatchMapping("/cancel")
-	public ResponseEntity<ApiResponse<String>> cancelAppointment(@RequestParam("id") Long id) {
+	public ResponseEntity<ApiResponse<String>> cancelAppointment(@RequestParam("appointmentId") Long id) {
 		appointmentService.cancelAppointment(id);
 		ApiResponse<String> response = new ApiResponse<>("success", "Appointment cancelled successfully", null);
 		return ResponseEntity.ok(response);
 	}
 
 	@DeleteMapping()
-	public ResponseEntity<ApiResponse<String>> deleteAppointment(@RequestParam("id") Long id) {
+	public ResponseEntity<ApiResponse<String>> deleteAppointment(@RequestParam("appointmentId") Long id) {
 		Optional<Appointment> existingAppointmentOpt = appointmentService.findById(id);
 
 		if (existingAppointmentOpt.isPresent()) {
